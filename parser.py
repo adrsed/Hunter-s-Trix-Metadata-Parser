@@ -3,6 +3,11 @@ import datetime
 import os
 import re
 import sys
+from subprocess import call
+
+# CONSTANTS
+artist = "Grateful Dead"
+genre = "Rock"
 
 parser = argparse.ArgumentParser()
 parser.add_argument("dir", nargs='*') # album directory
@@ -19,7 +24,7 @@ dir = args.dir[0] # TODO handle multiple directories properly
 os.chdir(dir)
 
 # search for metadata file
-# Metadata file looks like "gd73-06-22.mtx.seamons.txt"
+# filename looks like "gd73-06-22.mtx.seamons.txt"
 metadata = [f for f in os.listdir(dir) if re.match(r".*\.mtx\.seamons\.txt", f)]
 
 if len(metadata) == 0:
@@ -77,11 +82,62 @@ date = lines[3]
 
 date = datetime.datetime.strptime(date, "%B %d, %Y")
 year = date.year
+show = date.strftime("%y-%m-%d") # used for predicting filenames
 date = date.strftime("%Y-%m-%d")
 
 # Album title
 # 1973-06-22 - P.N.E. Coliseum (Hunter's Trix Vol. 12)
 album = f"{date} - {venue} (Hunter's Trix Vol. {vol})"
 print(album)
+
+
+# filter metadata file for tracks
+# Track lines look like "d1t01 - Bertha"
+lines = [line for line in lines if " - " in line and line[0] == 'd']
+
+for line in lines:
+    print(f"Track specifier from Metadata: {line}")
+
+    # Identifier is "d1t01"
+    identifier = re.search(r"^d[0-9]t[0-9]*", line).group(0)
+
+    # the number after the 'd' is the disc number
+    disc = identifier[1] # this wouldn't work if there are over 9 discs, but there probably won't be
+
+    # Track number is anything after the 't', remove that and any leading 0s
+    track = re.search(r"t[0-9]*", identifier).group(0).lstrip("t").lstrip("0")
+
+    # Title is anything after the " - "
+    title = re.search(r"\ -\ .*$", line).group(0).lstrip(" - ")
+
+    print(f"Identifier: {identifier}, Disc: {disc}, Track: {track}, Title: {title}")
+
+    # Files are named "gd73-06-22d1t01"
+    filename = f"gd{show}{identifier}.flac"
+    print(f"Predicted filename: {filename}")
+
+    if not os.path.isfile(filename):
+        print("Could not find predicted filename. Exiting.")
+        sys.exit()
+
+    # metaflac doesn't overwrite metadata, remove any old data
+    print(f"Removing old metadata from {filename}.")
+    call(["metaflac", "--remove-all-tags", filename])
+
+    print("Writing new metadata.")
+    call(["metaflac", f"--set-tag=ARTIST={artist}", filename])
+    call(["metaflac", f"--set-tag=DISCNUMBER={disc}", filename])
+    call(["metaflac", f"--set-tag=TRACKNUMBER={track}", filename])
+    call(["metaflac", f"--set-tag=TITLE={title}", filename])
+    call(["metaflac", f"--set-tag=ALBUM={album}", filename])
+    call(["metaflac", f"--set-tag=ALBUMARTIST={artist}", filename])
+    call(["metaflac", f"--set-tag=DATE={date}", filename])
+    call(["metaflac", f"--set-tag=YEAR={year}", filename])
+    call(["metaflac", f"--set-tag=GENRE={genre}", filename])
+    call(["metaflac", f"--import-picture-from={cover}", filename])
+
+    print()
+
+print("Done.")
 
 
