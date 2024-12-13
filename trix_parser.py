@@ -35,6 +35,7 @@ if len(metadata) == 0:
         sys.exit(1)
     else:
         metadata = args.metadata
+        metadata = os.path.split(metadata)[1]  # remove directory prefix, as it would break the script later on
 else:
     metadata = metadata[0]
 
@@ -52,6 +53,7 @@ if len(cover) == 0:
         sys.exit(1)
     else:
         cover = args.cover
+        cover = os.path.split(cover)[1]  # remove directory prefix, as it would break the script later on
 else:
     cover = cover[0]
 
@@ -68,6 +70,7 @@ else:
     vol = re.sub('[.hjt]', '', vol.group(0))
 
 print()
+
 
 # ==========================================================
 # Read Metadata file
@@ -91,7 +94,7 @@ date = date.strftime("%Y-%m-%d")
 # 1973-06-22 - P.N.E. Coliseum (Hunter's Trix Vol. 12)
 album = f"{date} - {venue} (Hunter's Trix Vol. {vol})"
 print(album)
-
+print()
 
 # filter metadata file for tracks
 # Track lines look like "d1t01 - Bertha"
@@ -127,7 +130,7 @@ for line in lines:
     print(f"Removing old metadata from {filename}.")
     call(["metaflac", "--remove-all-tags", filepath])
 
-    print("Writing new metadata.")
+    print(f"Writing new metadata to {filename}")
     call(["metaflac", f"--set-tag=ARTIST={artist}",
                       f"--set-tag=DISCNUMBER={disc}",
                       f"--set-tag=TRACKNUMBER={track}",
