@@ -22,15 +22,15 @@ Tested on Windows and Linux.
 
 ## Usage
 ### Requirements
-You will need to work with the command line (for now), so a tiny bit of
-computer magic is required.
+You will need to work with the command line, so a tiny bit of
+computer wizardry is required.
 
 The [metaflac](https://xiph.org/flac/documentation_tools_metaflac.html) CLI binary
 needs to be installed and working. If you are on Windows, a simple way is to have
 the ``metaflac.exe`` in the same directory as ``trix_parser.py``
 
 You can copy ```trix_parser.py``` to some folder in your python path, if you don't
-you simply will have to use the full path to the file in step 2.
+you simply will have to use the full path to the file in step 1.
 
 ### Running the parser
 0. Torrent a volume of your choosing, the directory name should look something 
@@ -61,5 +61,5 @@ as the metadata file is formatted differently, but it exists now).
 
 This is completely unnecessary but it's only one line I like 
 over-engineering things.
-- ``-g``, ``--genre`` - Specify a different genre, default is "Rock"
+- ``-g``, ``--genre`` - Specify a different genre, default value is "Rock".
 
