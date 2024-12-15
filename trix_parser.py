@@ -7,12 +7,12 @@ from subprocess import call
 
 parser = argparse.ArgumentParser()
 parser.add_argument("dir", nargs='?')  # album directory
-parser.add_argument("-m", "--metadata", help="File containing the metadata")  # metadata file
-parser.add_argument("-c", "--cover", help="Album Cover")  # album cover
-parser.add_argument("-a", "--artist")
-parser.add_argument("-v", "--volume")
-parser.add_argument("-g", "--genre", default="Rock")
-parser.add_argument("-r", "--rename", action="store_true")
+parser.add_argument("-m", "--metadata", help="File containing the metadata.")
+parser.add_argument("-c", "--cover", help="File to be used as cover art.")
+parser.add_argument("-a", "--artist", help="Artist to be used in the metadata.")
+parser.add_argument("-v", "--volume", help="Volume number of Hunter's Trix")
+parser.add_argument("-g", "--genre", default="Rock", help="Genre to be used in the metadata. Default = Rock")
+parser.add_argument("-r", "--rename", action="store_true", help="Rename the directory to the album title.")
 
 args = parser.parse_args()
 
@@ -23,6 +23,9 @@ if args.dir is None:
 genre = args.genre
 
 album_dir = args.dir
+if not os.path.isdir(album_dir):
+    print("Provided directory could not be found or is not a valid directory. Exiting.")
+    sys.exit(1)
 
 # Search for metadata file or take from arguments if provided.
 # Filename looks like "gd73-06-22.mtx.seamons.txt".
@@ -103,7 +106,7 @@ date = lines[3]
 date = datetime.datetime.strptime(date, "%B %d, %Y")
 year = date.year
 show = date.strftime("%y-%m-%d")  # used for predicting filenames
-date = date.strftime("%Y-%m-%d")
+date = date.strftime("%y-%m-%d")
 
 # Album title
 # 1973-06-22 - P.N.E. Coliseum (Hunter's Trix Vol. 12)
@@ -115,16 +118,20 @@ print()
 # Track lines look like "d1t01 - Bertha"
 lines = [line for line in lines if " - " in line and line[0] == 'd']
 
+if len(lines) == 0:
+    print("Could not find any metadata lines. Exiting.")
+    sys.exit(1)
+
 for line in lines:
     print(f"Track specifier from Metadata: {line}")
 
     # Identifier is "d1t01"
     identifier = re.search(r"^d[0-9]t[0-9]*", line).group(0)
 
-    # The number after the 'd' is the disc number
-    disc = identifier[1]  # this wouldn't work if there are over 9 discs, but there probably won't be
+    # The number after the 'd' is the disc number.
+    disc = identifier[1]  # this wouldn't work if there are over 9 discs, but there probably won't be.
 
-    # Track number is anything after the 't', remove that and any leading 0s
+    # Track number is anything after the 't', remove that and any leading 0s.
     track = re.search(r"t[0-9]*", identifier).group(0).lstrip("t").lstrip("0")
 
     # Title is anything after the " - "
@@ -160,9 +167,10 @@ for line in lines:
     print()
 
 if args.rename:
-    print(f"Renaming directory to {album}.")
+    print(f"Renaming directory to: {album}.")
     prefix = os.path.split(album_dir)[0]
     new_dir = os.path.join(prefix, album)
     os.rename(album_dir, new_dir)
+    print()
 
 print("Done.")
