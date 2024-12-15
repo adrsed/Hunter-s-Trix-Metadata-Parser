@@ -12,9 +12,9 @@ parser.add_argument("-c", "--cover", help="Album Cover")  # album cover
 parser.add_argument("-a", "--artist")
 parser.add_argument("-v", "--volume")
 parser.add_argument("-g", "--genre", default="Rock")
+parser.add_argument("-r", "--rename", action="store_true")
 
 args = parser.parse_args()
-
 
 if args.dir is None:
     print("No input directory given. Exiting.")
@@ -158,5 +158,11 @@ for line in lines:
                       f"--import-picture-from={cover}", filepath])
 
     print()
+
+if args.rename:
+    print(f"Renaming directory to {album}.")
+    prefix = os.path.split(album_dir)[0]
+    new_dir = os.path.join(prefix, album)
+    os.rename(album_dir, new_dir)
 
 print("Done.")
