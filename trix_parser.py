@@ -1,3 +1,16 @@
+"""
+Parses metadata for Hunter's Trix downloads, including cover art.
+
+Grab the metadata for the show and each track from the included metadata file,
+Metadata and cover art files, as well as volume number are found automatically but can also be provided via the
+command line.
+Rename the given directory to the album title if the corresponding flag is set.
+
+Processing a show takes a few seconds.
+
+For usage notes see https://github.com/adrsed/Hunter-s-Trix-Metadata-Parser
+"""
+
 import argparse
 import datetime
 import os
@@ -101,12 +114,13 @@ else:
     artist = lines[0]
 
 venue = lines[1]
-loc = lines[2]
+location = lines[2]
 date = lines[3]
 
 date = datetime.datetime.strptime(date, "%B %d, %Y")
 year = date.year
-show = date.strftime("%y-%m-%d")  # used for predicting filenames
+show = date.strftime("%y-%m-%d")  # used for predicting filenames, different variable than date in case someone
+                                  # wants a different format for the album title
 date = date.strftime("%y-%m-%d")
 
 # Album title
