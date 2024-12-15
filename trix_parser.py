@@ -23,6 +23,7 @@ if args.dir is None:
 genre = args.genre
 
 album_dir = args.dir
+album_dir = album_dir.removesuffix("/")  # handle directory names on Linux being passed with ending '/'
 if not os.path.isdir(album_dir):
     print("Provided directory could not be found or is not a valid directory. Exiting.")
     sys.exit(1)
@@ -168,7 +169,14 @@ for line in lines:
 
 if args.rename:
     print(f"Renaming directory to: {album}.")
-    prefix = os.path.split(album_dir)[0]
+    # Get the path of the parent directory, if it was used
+    split = os.path.split(album_dir)
+    # If the scrit is executed in the same directory as the album, os.path.split acts a little funky for what I am
+    # doing here, so this part has to exist.
+    if split[1] != "":
+        prefix = split[0]
+    else:
+        prefix = ""
     new_dir = os.path.join(prefix, album)
     os.rename(album_dir, new_dir)
     print()
