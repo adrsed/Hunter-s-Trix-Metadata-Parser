@@ -89,11 +89,11 @@ cover = os.path.join(album_dir, cover)
 if args.volume is not None:
     vol = args.volume
 else:
-    vol = re.search(r"\.[hj]t[0-9]*\.", album_dir)
+    vol = re.search(r"[hj]t[0-9]*", album_dir)
     if vol is None:
         vol = input("Could not extract Volume from directory name, please enter: ")
     else:
-        vol = re.sub('[.hjt]', '', vol.group(0))
+        vol = vol.group(0).lstrip("hjt")
 
 print()
 
@@ -119,9 +119,8 @@ date = lines[3]
 
 date = datetime.datetime.strptime(date, "%B %d, %Y")
 year = date.year
-show = date.strftime("%y-%m-%d")  # used for predicting filenames, different variable than date in case someone
-                                  # wants a different format for the album title
-date = date.strftime("%y-%m-%d")
+show = date.strftime("%y-%m-%d")  # used for predicting filenames
+date = date.strftime("%Y-%m-%d")
 
 # Album title
 # 1973-06-22 - P.N.E. Coliseum (Hunter's Trix Vol. 12)
