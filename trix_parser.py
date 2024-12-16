@@ -15,6 +15,7 @@ import argparse
 import datetime
 import os
 import re
+import shutil
 import sys
 from subprocess import call
 
@@ -28,6 +29,8 @@ parser.add_argument("-g", "--genre", default="Rock", help="Genre to be used in t
 parser.add_argument("-r", "--rename", action="store_true", help="Rename the directory to the album title.")
 
 args = parser.parse_args()
+
+start = datetime.datetime.now()
 
 if args.dir is None:
     print("No input directory given. Exiting.")
@@ -123,8 +126,8 @@ show = date.strftime("%y-%m-%d")  # used for predicting filenames
 date = date.strftime("%Y-%m-%d")
 
 # Album title
-# 1973-06-22 - P.N.E. Coliseum (Hunter's Trix Vol. 12)
-album = f"{date} - {venue} (Hunter's Trix Vol. {vol})"
+# 1973-06-22 - P.N.E. Coliseum - Vancouver, BC, Canada (Hunter's Trix Vol. 12)
+album = f"{date} - {venue} - {location} (Hunter's Trix Vol. {vol})"
 print(album)
 print()
 
@@ -191,7 +194,13 @@ if args.rename:
     else:
         prefix = ""
     new_dir = os.path.join(prefix, album)
+
+    if os.path.isdir(new_dir):
+        shutil.rmtree(new_dir)
+
     os.rename(album_dir, new_dir)
     print()
 
-print("Done.")
+end = datetime.datetime.now()
+
+print(f"Done. {end - start}")

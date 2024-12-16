@@ -2,7 +2,8 @@
 Metadata Parser for Hunter's Trix
 
 [Hunter's Trix](https://www.facebook.com/GratefulDeadTrix) is a collection of 
-incredible Matrix recordings of a bunch of Grateful Dead shows.
+incredible Matrix recordings of a bunch of Grateful Dead shows, including some 
+incredible cover art for each show.
 They have one problem however: Volumes 1 through 94 lack metadata in the FLAC
 files, adding those manually takes a lot of time, which this script aims to solve.
 It can also be used to easily adjust existing metadata (e.g. cover art or the 
@@ -17,6 +18,7 @@ with some changes:
 the command line.
 4. The directory containing the files (and other data) is supplied via the 
 command line instead of having to change variables in the file.
+5. Includes an additional script to bulk process multiple shows.
 
 Tested on Windows and Linux.
 
@@ -47,7 +49,8 @@ for that.
 There are some command line options you can use with the parser.
 
 - ``-r``, ``--rename`` - Rename the directory to the generated album title 
-at the end of the process.
+at the end of the process. If a directory with that name already exists, it will be
+overwritten.
 
 The information for the following options is grabbed automatically, but you
 may still use them to provide it manually if grabbing them doesn't work or
@@ -71,7 +74,7 @@ if you don't rename anything and just pass the torrents directly into this.
 Simply run ```python bulk_parser.py <path_to_directory>``` where ``<path_to_directory>``
 is the directory containing the downloaded shows. The script only processes the 
 directories with the naming scheme they use by default 
-(e.g. "gd73-06-22.mtx.seamons.ht12.92375.flac16").
+(e.g. ``gd73-06-22.mtx.seamons.ht12.92375.flac16``).
 
 You can also use ``-r`` or ``--rename`` to automatically rename the directories.
 

@@ -1,4 +1,5 @@
 import argparse
+import datetime
 import os
 import re
 import subprocess
@@ -11,6 +12,8 @@ parser.add_argument("dir", nargs="?")
 parser.add_argument("-r", "--rename", action="store_true", help="Rename the directory to the album title.")
 
 args = parser.parse_args()
+
+start = datetime.datetime.now()
 
 if args.dir is None:
     print("No input directory given. Exiting.")
@@ -33,7 +36,8 @@ error_count = 0
 error_list = []
 
 for album_dir in dirs:
-    print(f"Processing {album_dir}")
+    print(f"Processing {album_dir} ", end='')
+    album_start = datetime.datetime.now()
 
     album_path = os.path.join(args.dir, album_dir)
     exec_args[2] = album_path
@@ -45,9 +49,14 @@ for album_dir in dirs:
         error_count += 1
         error_list.append(album_dir)
 
+    album_end = datetime.datetime.now()
+    print(f"- {album_end - album_start}")
+
 print()
+end = datetime.datetime.now()
+
 completed = len(dirs) - error_count
-print(f"Completed {completed}/{len(dirs)}.")
+print(f"Completed {completed}/{len(dirs)} in {end - start}.")
 
 if error_count > 0:
     print("Errors occurred in the following directories:")
