@@ -38,8 +38,7 @@ like ``gd73-06-22.mtx.seamons.ht12.92375.flac16`` after the download is complete
 1. In a terminal, run ```python trix_parser.py <path to the directory>```. 
 You can use some options here, see [the below section](#command-line-options) 
 for that.
-2. (If you have renamed the directory or didn't supply it via the command line,
-you would have to enter the volume number now.)
+2. (If you have renamed the directory you would have to enter the volume number now.)
 3. Wait a few seconds.
 4. Enjoy!
 
