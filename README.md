@@ -17,7 +17,6 @@ with some changes:
 the command line.
 4. The directory containing the files (and other data) is supplied via the 
 command line instead of having to change variables in the file.
-5. There is an additional script to process multiple shows at once.
 
 Tested on Windows and Linux.
 
@@ -40,8 +39,7 @@ Don't change that name.
 2. In a terminal, run ```python trix_parser.py <path to the directory>```. 
 You can use some options here, see [the below section](#command-line-options) 
 for that.
-3. (If you have renamed the directory or didn't supply it via the command line,
-you would have to enter the volume number now.)
+3. (If you have renamed the directory you would have to enter the volume number now.)
 4. Wait a few seconds.
 5. Enjoy!
 
