@@ -160,7 +160,7 @@ for line in lines:
 
     if not os.path.isfile(filepath):
         print("Could not find predicted filename. Exiting.")
-        sys.exit()
+        sys.exit(1)
 
     # metaflac doesn't overwrite metadata, remove any old data
     print(f"Removing old metadata from {filename}.")

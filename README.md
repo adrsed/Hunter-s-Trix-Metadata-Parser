@@ -17,6 +17,7 @@ with some changes:
 the command line.
 4. The directory containing the files (and other data) is supplied via the 
 command line instead of having to change variables in the file.
+5. There is an additional script to process multiple shows at once.
 
 Tested on Windows and Linux.
 
@@ -33,15 +34,16 @@ You can copy ```trix_parser.py``` to some folder in your python path, if you don
 you simply will have to use the full path to the file in step 1.
 
 ### Running the parser
-0. Torrent a volume of your choosing, the directory name should look something 
+1. Torrent a show of your choosing, the directory name should look something 
 like ``gd73-06-22.mtx.seamons.ht12.92375.flac16`` after the download is complete.
-1. In a terminal, run ```python trix_parser.py <path to the directory>```. 
+Don't change that name.
+2. In a terminal, run ```python trix_parser.py <path to the directory>```. 
 You can use some options here, see [the below section](#command-line-options) 
 for that.
-2. (If you have renamed the directory or didn't supply it via the command line,
+3. (If you have renamed the directory or didn't supply it via the command line,
 you would have to enter the volume number now.)
-3. Wait a few seconds.
-4. Enjoy!
+4. Wait a few seconds.
+5. Enjoy!
 
 #### Command Line Options
 There are some command line options you can use with the parser.
@@ -62,4 +64,16 @@ as the metadata file is formatted differently, but it exists now).
 This is completely unnecessary but it's only one line I like 
 over-engineering things.
 - ``-g``, ``--genre`` - Specify a different genre, default value is "Rock".
+
+### Processing multiple shows at once
+
+Using ``bulk_parser.py`` you can process multiple shows at once. This only really works
+if you don't rename anything and just pass the torrents directly into this.
+
+Simply run ```python bulk_parser.py <path_to_directory>``` where ``<path_to_directory>``
+is the directory containing the downloaded shows. The script only processes the 
+directories with the naming scheme they use by default 
+(e.g. "gd73-06-22.mtx.seamons.ht12.92375.flac16").
+
+You can also use ``-r`` or ``--rename`` to automatically rename the directories.
 
