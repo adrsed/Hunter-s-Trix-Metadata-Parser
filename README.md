@@ -4,10 +4,14 @@ Metadata Parser for Hunter's Trix
 [Hunter's Trix](https://www.facebook.com/GratefulDeadTrix) is a collection of 
 incredible Matrix recordings of a bunch of Grateful Dead shows, including some 
 incredible cover art for each show.
-They have one problem however: Volumes 1 through 94 lack metadata in the FLAC
+~~They have one problem however: Volumes 1 through 94 lack metadata in the FLAC
 files, adding those manually takes a lot of time, which this script aims to solve.
 It can also be used to easily adjust existing metadata (e.g. cover art or the 
-format of the album title).
+format of the album title).~~ Well as of 24.12.2024 Hunter made available on
+[Google Drive](https://drive.google.com/drive/folders/1DBxG8qmL_aLTeNECkn6N3T7yXNeTXL8D).
+You can still use this to adjust the metadata formatting, covers and such to your taste,
+the important stuff (song titles, track numbers, disc numbers) should come out the 
+same as they are officially provided.
 
 This is based on an [already existing parser](https://github.com/shacker/trix) 
 with some changes:

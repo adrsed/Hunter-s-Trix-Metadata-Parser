@@ -126,8 +126,8 @@ show = date.strftime("%y-%m-%d")  # used for predicting filenames
 date = date.strftime("%Y-%m-%d")
 
 # Album title
-# 1973-06-22 - P.N.E. Coliseum - Vancouver, BC, Canada (Hunter's Trix Vol. 12)
-album = f"{date} - {venue} - {location} (Hunter's Trix Vol. {vol})"
+# 1973-06-22 - P.N.E. Coliseum, Vancouver, BC, Canada (Hunter's Trix Vol. 12)
+album = f"{date} - {venue}, {location} (Hunter's Trix Vol. {vol})"
 print(album)
 print()
 
